@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ArticleApp.API.Data;
+using ArticleApp.API.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,7 +28,10 @@ namespace ArticleApp.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(p => p.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            // var sqlConnectionString = Configuration["DefaultConnection"];
+            // services.AddDbContext<DataContext>(p => p.UseNpgsql(sqlConnectionString);
             services.AddControllers();
+            services.AddScoped<IDataAccessProvider, DataAccessProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
